@@ -6,41 +6,48 @@ const CAT_IMAGE_URL = 'https://cataas.com/cat/says'
 const IMAGE_SIZE = 50
 
 function App() {
-  const [fact, setFact] = useState('')
+  const [fact, setFact] = useState()
   const [catImg, setCatImg] = useState('')
 
-  const { 0: firstFactWord } = fact?.split(' ')
+  const getFact = async () => {
+    const resp = await fetch(`${CAT_RANDOM_FACT_URL}/fact`)
+    const data = await resp.json()
+    setFact(data.fact)
+  }
+
+  useEffect(getFact, [])
 
   useEffect(() => {
-    const getFact = async () => {
-      const resp = await fetch(`${CAT_RANDOM_FACT_URL}/fact`)
-      const data = await resp.json()
-      setFact(data.fact)
+    if (!fact) return
+    const { 0: firstFactWord } = fact.split(' ')
+    const getCatImageByTag = async () => {
+      const catImgResp = await fetch(
+        `${CAT_IMAGE_URL}/${firstFactWord}?size=${IMAGE_SIZE}`
+      )
+      const resp = await catImgResp.blob()
+      const url = URL.createObjectURL(resp)
+      setCatImg(url)
     }
+    getCatImageByTag()
+  }, [fact])
+
+  const handleClick = () => {
     getFact()
-  }, [])
-
-  useEffect(() => {
-    if (firstFactWord) {
-      const getCatImageByTag = async () => {
-        const catImgResp = await fetch(
-          `${CAT_IMAGE_URL}/${firstFactWord}?size=${IMAGE_SIZE}`
-        )
-        const resp = await catImgResp.blob()
-        const url = URL.createObjectURL(resp)
-        setCatImg(url)
-      }
-      getCatImageByTag()
-    }
-  }, [firstFactWord])
+  }
 
   return (
     <main>
-      <h1>Prueba tecnica React js</h1>
-      <h2>Gatito' fact:</h2>
-      <div>
+      <h1>Prueba tecnica Reactjs</h1>
+      <div className="cat-card">
+        <div className="cat-card__header">
+          <h2>Gatito' fact:</h2>
+          <button onClick={handleClick}>Get new Fact</button>
+        </div>
         <p>{fact}</p>
-        <img src={catImg} alt={firstFactWord} />
+        <img
+          src={catImg}
+          alt={`Image from cataas.com using first word from catfact.ninja: ${fact}`}
+        />
       </div>
     </main>
   )
