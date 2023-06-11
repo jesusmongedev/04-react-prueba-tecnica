@@ -1,38 +1,23 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-
-const CAT_RANDOM_FACT_URL = 'https://catfact.ninja'
-const CAT_IMAGE_URL = 'https://cataas.com/cat/says'
-const IMAGE_SIZE = 50
+import { getFact } from './services/public.services'
+import useCatImageUrl from './hooks/useCatImageUrl'
 
 function App() {
   const [fact, setFact] = useState()
-  const [catImg, setCatImg] = useState('')
+  const { catImg } = useCatImageUrl({ fact })
 
-  const getFact = async () => {
-    const resp = await fetch(`${CAT_RANDOM_FACT_URL}/fact`)
-    const data = await resp.json()
-    setFact(data.fact)
+  const fetchFact = async () => {
+    const factResp = await getFact()
+    setFact(factResp)
   }
 
-  useEffect(getFact, [])
-
   useEffect(() => {
-    if (!fact) return
-    const { 0: firstFactWord } = fact.split(' ')
-    const getCatImageByTag = async () => {
-      const catImgResp = await fetch(
-        `${CAT_IMAGE_URL}/${firstFactWord}?size=${IMAGE_SIZE}`
-      )
-      const resp = await catImgResp.blob()
-      const url = URL.createObjectURL(resp)
-      setCatImg(url)
-    }
-    getCatImageByTag()
-  }, [fact])
+    fetchFact()
+  }, [])
 
   const handleClick = () => {
-    getFact()
+    fetchFact()
   }
 
   return (

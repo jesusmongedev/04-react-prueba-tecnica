@@ -1,9 +1,11 @@
-# Prueba técnica para Jiniors y Trainees de React en Live Coding
+# Prueba técnica para Juniors y Trainees de React en Live Coding
 
-APIs:
+### APIs:
 
 - Facts Random: https://catfact.ninja/fact
 - Image Random: https://cataas.com/cat/says/hello
+
+## Desglose de tareas:
 
 - Recupera un hecho aleatorio de gatos de la primera API ✅
 - Recuperar la primera palabra del hecho ✅
@@ -12,7 +14,7 @@ APIs:
 ## Aprendizajes:
 
 1. Primero revisar la documentacion de las APIS, probar los endpoints y ver la respuesta.
-2. Adaptar los datos a lo solicitado por ejemplo el fact devuelve un objecto, por lo que mejor guardamos en el estado la respuesta.fact quedandonos con el String.
+2. Adaptar los datos a lo solicitado por ejemplo el fact devuelve un objecto, por lo que mejor guardamos en el estado la `respuesta.fact` quedandonos con el String.
 
 ```js
 {
