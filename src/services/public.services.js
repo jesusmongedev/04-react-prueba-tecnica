@@ -11,10 +11,9 @@ export const getFact = async () => {
 }
 
 export const getCatImageByTag = async ({ firstThreeFactWord }) => {
-  const catImgResp = await fetch(
-    `${CAT_IMAGE_URL}/${firstThreeFactWord}?size=${IMAGE_SIZE}`
+  const resp = await fetch(
+    `${CAT_IMAGE_URL}/${firstThreeFactWord}?size=${IMAGE_SIZE}&json=true`
   )
-  const resp = await catImgResp.blob()
-  const url = URL.createObjectURL(resp)
+  const { url } = await resp.json()
   return url
 }

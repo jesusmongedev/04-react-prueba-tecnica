@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
 import { getCatImageByTag } from '../services/public.services'
+import { CAT_PREFIX_IMAGE_URL } from '../constants/general'
 
 export default function useCatImageUrl({ fact }) {
-  const [catImg, setCatImg] = useState('')
+  const [imgUrl, setImgUrl] = useState('')
 
   useEffect(() => {
     if (!fact) return
     const firstThreeFactWord = fact.split(' ', 3).join(' ')
     const fetchCatImageByTag = async () => {
-      const catImgResp = await getCatImageByTag({ firstThreeFactWord })
-      setCatImg(catImgResp)
+      const imgUrlResp = await getCatImageByTag({ firstThreeFactWord })
+      setImgUrl(imgUrlResp)
     }
     fetchCatImageByTag()
   }, [fact])
 
-  return { catImg }
+  return { imgUrl: `${CAT_PREFIX_IMAGE_URL}${imgUrl}` }
 }

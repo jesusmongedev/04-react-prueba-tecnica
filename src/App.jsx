@@ -1,9 +1,8 @@
 import './App.css'
 import { useCatImageUrl, useRandomCatFact } from './hooks'
-
 function App() {
   const { fact, fetchFact } = useRandomCatFact()
-  const { catImg } = useCatImageUrl({ fact })
+  const { imgUrl } = useCatImageUrl({ fact })
 
   const handleClick = () => {
     fetchFact()
@@ -11,7 +10,7 @@ function App() {
 
   return (
     <main>
-      <h1>Prueba tecnica Reactjs</h1>
+      <h1>Prueba tecnica Reactjs </h1>
       <div className="cat-card">
         <div className="cat-card__header">
           <h2>Gatito' fact:</h2>
@@ -19,7 +18,7 @@ function App() {
         </div>
         <p>{fact}</p>
         <img
-          src={catImg}
+          src={imgUrl}
           alt={`Image from cataas.com using first word from catfact.ninja: ${fact}`}
         />
       </div>
